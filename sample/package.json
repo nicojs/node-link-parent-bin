@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "link-parent-bin": "link-parent-bin"
+        "link-parent-bin": "link-parent-bin --log-level debug"
     },
     "devDependencies": {
         "hello-world": "file:./dependencies/hello-world"
