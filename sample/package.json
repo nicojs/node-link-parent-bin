@@ -1,0 +1,14 @@
+{
+    "name": "sample",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "link-parent-bin": "link-parent-bin"
+    },
+    "devDependencies": {
+        "hello-world": "file:./dependencies/hello-world"
+    },
+    "dependencies": {
+        "hello-dependency": "file:./dependencies/hello-dependency"
+    }
+}

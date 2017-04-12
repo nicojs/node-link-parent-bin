@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+'use strict';
+
+process.title = 'parent-bin';
+
+// Run the TypeScript compiled stryker-cli.js
+require('../src/cli');

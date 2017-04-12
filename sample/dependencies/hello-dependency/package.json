@@ -1,0 +1,7 @@
+{
+    "name": "hello-dependency",
+    "version": "0.0.0",
+    "bin": {
+        "helloDependency": "hello-dependency"
+    }
+}
