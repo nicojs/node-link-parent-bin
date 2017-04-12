@@ -7,6 +7,7 @@ function link(from: string, to: string) {
     const toDir = path.dirname(to)
     const absTarget = path.resolve(toDir, from)
     const target = path.relative(toDir, absTarget)
+    console.log('Symlink:', from, target);
     return fs.symlink(from, target, 'junction');
 }
 
