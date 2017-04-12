@@ -8,7 +8,8 @@ function link(from: string, to: string) {
     const absTarget = path.resolve(toDir, from)
     const target = path.relative(toDir, absTarget)
     console.log('Symlink:', target, to);
-    return fs.symlink(target, to, 'junction');
+    return fs.mkdir(path.dirname(to))
+        .then(_ => fs.symlink(target, to, 'junction'));
 }
 
 export function cmdShimIfExists(from: string, to: string): Promise<void> {
