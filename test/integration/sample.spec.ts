@@ -2,6 +2,9 @@ import { expect } from 'chai';
 import * as childProcess from 'mz/child_process';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
+import * as log4js from 'log4js';
+
+log4js.setGlobalLogLevel('trace');
 
 const rm = (location: string) => new Promise((res, rej) => rimraf(location, err => {
     if (err) {

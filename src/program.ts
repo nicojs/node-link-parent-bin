@@ -1,3 +1,4 @@
+import { Options } from './program';
 import * as commander from 'commander';
 
 export interface Options {
@@ -6,15 +7,17 @@ export interface Options {
     logLevel: 'debug' | 'info' | 'error';
 }
 
-const parseBoolean = (val: string) => val.toLowerCase() === 'true';
+const parseBoolean = (val: string) =>  val.toLowerCase() === 'true';
 const describeLinking = (name: string, defaultValue: boolean) => `Enables linking of parents \`${name}\`. Defaults to: ${defaultValue}`;
 
-const cliProgram = commander
-  .version(require('../package.json').version)
-  .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
-  .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)
-  .option('-l, --logLevel <debug|info|error>', 'Set the log level', /debug|info|error/, 'info');
-
 export const program = {
-    parse: (argv: string[]) => (cliProgram.parse(argv) as any) as Options
+    parse: (argv: string[]) => {
+        return (commander
+            .usage('[options]')
+            .version(require('../package.json').version)
+            .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
+            .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)
+            .option('-l, --log-level <debug|info|error>', 'Set the log level', /debug|info|error/, 'info')
+            .parse(argv) as any) as Options;
+    }
 } 

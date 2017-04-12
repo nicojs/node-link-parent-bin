@@ -1,13 +1,25 @@
 import * as fs from 'mz/fs';
+import * as mkdirp from 'mkdirp';
 import * as path from 'path';
 const cmdShim = require('cmd-shim');
+
+const mkdir = (dir: string) => new Promise((res, rej) => {
+    mkdirp(dir, err => {
+        if (err) {
+            rej(err);
+        } else {
+            res();
+        }
+    })
+});
 
 function link(from: string, to: string) {
     to = path.resolve(to)
     const toDir = path.dirname(to)
-    const absTarget = path.resolve(toDir, from)
-    const target = path.relative(toDir, absTarget)
-    return fs.symlink(from, target, 'junction');
+    const target = path.relative(toDir, from)
+    console.log('Symlink:', target, to);
+    return mkdir(path.dirname(to))
+        .then(_ => fs.symlink(target, to, 'junction'));
 }
 
 export function cmdShimIfExists(from: string, to: string): Promise<void> {
@@ -37,5 +49,5 @@ export function linkIfExists(from: string, to: string) {
                     return link(from, to);
                 }
             })
-            .catch(_ => /* link doesn't exist */ link(from, to)))
+        ).catch(_ => /* link doesn't exist */ link(from, to));
 }
