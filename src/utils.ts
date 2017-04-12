@@ -38,5 +38,5 @@ export function linkIfExists(from: string, to: string) {
                     return link(from, to);
                 }
             })
-            .catch(_ => /* link doesn't exist */ link(from, to)))
+        ).catch(_ => /* link doesn't exist */ link(from, to));
 }
