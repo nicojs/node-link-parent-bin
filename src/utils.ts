@@ -8,7 +8,9 @@ function link(from: string, to: string) {
     const absTarget = path.resolve(toDir, from)
     const target = path.relative(toDir, absTarget)
     console.log('Symlink:', target, to);
-    return fs.mkdir(path.dirname(to))
+    return fs.readdir(path.dirname(target))
+        .then(files => console.log('dir', path.dirname(target), 'contains', JSON.stringify(files)))
+        .then(_ => fs.mkdir(path.dirname(to)))
         .then(_ => fs.symlink(target, to, 'junction'));
 }
 
