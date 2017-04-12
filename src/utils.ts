@@ -5,8 +5,7 @@ const cmdShim = require('cmd-shim');
 function link(from: string, to: string) {
     to = path.resolve(to)
     const toDir = path.dirname(to)
-    const absTarget = path.resolve(toDir, from)
-    const target = path.relative(toDir, absTarget)
+    const target = path.relative(toDir, from)
     console.log('Symlink:', target, to);
     return fs.readdir(path.dirname(target))
         .then(files => console.log('dir', path.dirname(target), 'contains', JSON.stringify(files)))
