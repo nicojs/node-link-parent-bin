@@ -1,11 +1,10 @@
 import * as fs from 'mz/fs';
 import * as path from 'path';
-import { platform } from 'os';
 import { getLogger } from 'log4js';
-import { linkIfExists, cmdShimIfExists } from './utils';
+import * as link from './link';
 import { Options } from './program';
 
-const log = getLogger('ParentalControl');
+const log = getLogger('ParentBinLinker');
 
 const PACKAGES_DIR = 'packages';
 
@@ -32,11 +31,7 @@ export class ParentBinLinker {
     private linkBin(binName: string, from: string, childPackage: string): Promise<undefined> {
         const to = path.join(PACKAGES_DIR, childPackage, 'node_modules', '.bin', binName);
         log.debug('Creating link at %s for command at %s', to, from);
-        if (platform() === 'win32') {
-            return cmdShimIfExists(from, to);
-        } else {
-            return linkIfExists(from, to);
-        }
+        return link.link(from, to);
     }
 
     private linkBinsOfDependencies(childPackages: string[], dependenciesToLink: string[]): Promise<undefined> {

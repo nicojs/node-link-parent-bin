@@ -1,7 +1,6 @@
 node_modules
-!bin/**
-!src/**
 *.js
 !tasks/*.js
 *.d.ts
+*.map
 *.log

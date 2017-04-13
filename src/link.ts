@@ -1,28 +1,27 @@
-import * as fs from 'mz/fs';
-import * as mkdirp from 'mkdirp';
+import { platform } from 'os';
 import * as path from 'path';
+import * as fs from 'mz/fs';
 const cmdShim = require('cmd-shim');
 
-const mkdir = (dir: string) => new Promise((res, rej) => {
-    mkdirp(dir, err => {
-        if (err) {
-            rej(err);
-        } else {
-            res();
-        }
-    })
-});
+import { FSUtils } from './FSUtils';
 
-function link(from: string, to: string) {
+function symlink(from: string, to: string) {
     to = path.resolve(to)
     const toDir = path.dirname(to)
     const target = path.relative(toDir, from)
-    console.log('Symlink:', target, to);
-    return mkdir(path.dirname(to))
-        .then(_ => fs.symlink(target, to, 'junction'));
+    return FSUtils.mkdirp(path.dirname(to))
+        .then(() => fs.symlink(target, to, 'junction'));
 }
 
-export function cmdShimIfExists(from: string, to: string): Promise<void> {
+export function link(from: string, to: string) {
+    if (platform() === 'win32') {
+        return cmdShimIfExists(from, to);
+    } else {
+        return linkIfExists(from, to);
+    }
+}
+
+function cmdShimIfExists(from: string, to: string): Promise<void> {
     return new Promise<void>((res, rej) => {
         cmdShim.ifExists(from, to, (err: any) => {
             if (err) {
@@ -34,7 +33,7 @@ export function cmdShimIfExists(from: string, to: string): Promise<void> {
     });
 }
 
-export function linkIfExists(from: string, to: string) {
+function linkIfExists(from: string, to: string) {
     return fs.stat(from)
         .then(_ => fs.readlink(to)
             .then(fromOnDisk => {
@@ -46,8 +45,8 @@ export function linkIfExists(from: string, to: string) {
                     // we don't need to do anything
                     return undefined;
                 } else {
-                    return link(from, to);
+                    return symlink(from, to);
                 }
             })
-        ).catch(_ => /* link doesn't exist */ link(from, to));
+        ).catch(_ => /* link doesn't exist */ symlink(from, to));
 }
