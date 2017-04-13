@@ -22,7 +22,8 @@ describe('ParentBinLinker', () => {
         options = {
             linkDependencies: false,
             linkDevDependencies: true,
-            logLevel: 'info'
+            logLevel: 'info',
+            childDirectoryRoot: 'packages'
         };
         sut = new ParentBinLinker(options);
         statStub = sandbox.stub(fs, 'stat');
@@ -67,6 +68,7 @@ describe('ParentBinLinker', () => {
                     .withArgs(path.join('node_modules', 'devDep-1', 'package.json')).resolves(JSON.stringify(devDepPkg))
                     .withArgs(path.join('node_modules', 'dep-1', 'package.json')).resolves(JSON.stringify(depPkg));
                 readDirsStub.withArgs('packages').resolves(['child-1', 'child-2']);
+                readDirsStub.withArgs('alternativeChildHostingDir').resolves(['child-3']);
             });
 
             it('should link only devDependencies', async () => {
@@ -90,7 +92,7 @@ describe('ParentBinLinker', () => {
 
                 // Act
                 await sut.linkBinsToChildren();
-               
+
                 // Assert
                 expect(linkStub).callCount(2);
                 expect(linkStub).calledWith(depSH, path.join('packages', 'child-1', 'node_modules', '.bin', 'dep'));
@@ -103,9 +105,14 @@ describe('ParentBinLinker', () => {
                 linkStub.rejects(err);
                 await sut.linkBinsToChildren();
                 expect(logErrorStub).calledWith('Could not link bin devDep for child child-1.', err);
-                expect(logErrorStub).calledWith('Could not link bin devDep for child child-2.', err);
-                expect(logErrorStub).calledWith('Could not link bin devDepAwesome for child child-1.', err);
-                expect(logErrorStub).calledWith('Could not link bin devDepAwesome for child child-2.', err);
+                expect(logErrorStub).callCount(4);
+            });
+
+            it('should use a different child dir if configures', async () => {
+                options.childDirectoryRoot = 'alternativeChildHostingDir';
+                const depSH = path.resolve('node_modules', 'devDep-1', 'devDep.sh');
+                await sut.linkBinsToChildren();
+                expect(linkStub).calledWith(depSH, path.join('alternativeChildHostingDir', 'child-3', 'node_modules', '.bin', 'devDep'));
             });
         });
     });

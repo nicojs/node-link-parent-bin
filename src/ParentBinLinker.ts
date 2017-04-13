@@ -5,8 +5,6 @@ import * as link from './link';
 import { Options } from './program';
 import { FSUtils } from './FSUtils';
 
-const PACKAGES_DIR = 'packages';
-
 export interface Dictionary {
     [name: string]: string;
 }
@@ -26,7 +24,7 @@ export class ParentBinLinker {
      }
 
     private linkBin(binName: string, from: string, childPackage: string): Promise<undefined> {
-        const to = path.join(PACKAGES_DIR, childPackage, 'node_modules', '.bin', binName);
+        const to = path.join(this.options.childDirectoryRoot, childPackage, 'node_modules', '.bin', binName);
         this.log.debug('Creating link at %s for command at %s', to, from);
         return link.link(from, to);
     }
@@ -54,7 +52,7 @@ export class ParentBinLinker {
     }
 
     public linkBinsToChildren(): Promise<any> {
-        return Promise.all([fs.readFile('package.json'), FSUtils.readDirs(PACKAGES_DIR)]).then(results => {
+        return Promise.all([fs.readFile('package.json'), FSUtils.readDirs(this.options.childDirectoryRoot)]).then(results => {
             const contents = results[0];
             const childPackages = results[1];
             const pkg: PackageJson = JSON.parse(contents.toString());

@@ -14,7 +14,8 @@ describe('program', () => {
             const defaultOptions: Options = {  
                 logLevel: 'info',
                 linkDependencies: false,
-                linkDevDependencies: true
+                linkDevDependencies: true,
+                childDirectoryRoot: 'packages'
             }
             const actualOptions = program.parse([]);
             expect(actualOptions).to.contain.all.keys(defaultOptions);
@@ -24,9 +25,10 @@ describe('program', () => {
             const expected: Options = {  
                 logLevel: 'error',
                 linkDependencies: true,
-                linkDevDependencies: false
+                linkDevDependencies: false,
+                childDirectoryRoot: 'some-other-folder'
             }
-            const actualOptions = program.parse(['', '', '--link-dev-dependencies', 'false', '--link-dependencies', 'true', '-l', 'error']);
+            const actualOptions = program.parse(['', '', '--link-dev-dependencies', 'false', '--link-dependencies', 'true', '-l', 'error', '--child-directory-root', 'some-other-folder']);
             expect(actualOptions).to.contain.all.keys(expected);
             expectToInclude(actualOptions, expected);
         });
