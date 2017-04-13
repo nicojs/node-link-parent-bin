@@ -2,9 +2,6 @@ import { expect } from 'chai';
 import * as childProcess from 'mz/child_process';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
-import * as log4js from 'log4js';
-
-log4js.setGlobalLogLevel('trace');
 
 const rm = (location: string) => new Promise((res, rej) => rimraf(location, err => {
     if (err) {
@@ -33,7 +30,7 @@ const exec = (cmd: string, cwd = '') => {
 
 const MOCHA_TIMEOUT = 60000;
 
-describe('Sample project', function () {
+describe('Sample project after installing and linking with `link-parent-bin`', function () {
 
     this.timeout(MOCHA_TIMEOUT);
 
@@ -42,7 +39,7 @@ describe('Sample project', function () {
         .then(() => exec('npm i file:..'))
         .then(() => exec('npm run link-parent-bin')));
 
-    it('should work', () => {
+    it('should be able to run linked commands from child packages', () => {
         return expect(exec('npm run hello-world', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/hello world/g);
     });
 })

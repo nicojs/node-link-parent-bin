@@ -1,9 +1,9 @@
 import { platform } from 'os';
 import * as path from 'path';
 import * as fs from 'mz/fs';
-const cmdShim = require('cmd-shim');
-
 import { FSUtils } from './FSUtils';
+
+const cmdShim = require('cmd-shim');
 
 function symlink(from: string, to: string) {
     to = path.resolve(to)
