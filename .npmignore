@@ -4,3 +4,4 @@
 src/**/*.map
 src/**/*.ts
 !src/**/*.d.ts
+!readme.md
