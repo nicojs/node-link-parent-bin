@@ -1,4 +1,3 @@
-import { Options } from './program';
 import * as commander from 'commander';
 
 export interface Options {
