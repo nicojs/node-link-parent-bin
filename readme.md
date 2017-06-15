@@ -113,6 +113,7 @@ $ node_modules/.bin/link-parent-bin --help
     -c, --child-directory-root <child-directory>  The directory that hosts the child packages relative to the parent root.
     -d, --link-dev-dependencies <true|false>      Enables linking of parents `devDependencies`. Defaults to: true
     -s, --link-dependencies <true|false>          Enables linking of parents `dependencies`. Defaults to: false
+    -o, --link-local-dependencies <true|false>    Enables linking of parents `localDependencies`. Defaults to: false
     -l, --log-level <debug|info|error>            Set the log level
 ```
 
@@ -120,7 +121,7 @@ $ node_modules/.bin/link-parent-bin --help
 
 ```js
 const linkParentBin = require('link-parent-bin');
-const linker = new ParentBinLinker({ childDirectoryRoot: 'packages', linkDevDependencies: true, linkDependencies: false });
+const linker = new ParentBinLinker({ childDirectoryRoot: 'packages', linkDevDependencies: true, linkDependencies: false, linkLocalDependencies: false });
 linker.linkBinsToChildren()
     .then(() => console.log('done'))
     .catch(err => console.error('Error Linking packages', err));

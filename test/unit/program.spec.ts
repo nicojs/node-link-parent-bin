@@ -15,6 +15,7 @@ describe('program', () => {
                 logLevel: 'info',
                 linkDependencies: false,
                 linkDevDependencies: true,
+                linkLocalDependencies: false,
                 childDirectoryRoot: 'packages'
             }
             const actualOptions = program.parse([]);
@@ -26,6 +27,7 @@ describe('program', () => {
                 logLevel: 'error',
                 linkDependencies: true,
                 linkDevDependencies: false,
+                linkLocalDependencies: false,
                 childDirectoryRoot: 'some-other-folder'
             }
             const actualOptions = program.parse(['', '', '--link-dev-dependencies', 'false', '--link-dependencies', 'true', '-l', 'error', '--child-directory-root', 'some-other-folder']);

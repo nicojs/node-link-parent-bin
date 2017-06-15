@@ -3,6 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "hello-world": "helloWorld"
+        "hello-dependency": "helloDependency",
+        "hello-dev-dependency": "helloDevDependency",
+        "link-parent-bin-help": "link-parent-bin --help"
     }
 }

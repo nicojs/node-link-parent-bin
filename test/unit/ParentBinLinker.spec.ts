@@ -22,6 +22,7 @@ describe('ParentBinLinker', () => {
         options = {
             linkDependencies: false,
             linkDevDependencies: true,
+            linkLocalDependencies: false,
             logLevel: 'info',
             childDirectoryRoot: 'packages'
         };
@@ -100,7 +101,7 @@ describe('ParentBinLinker', () => {
             });
 
             it('should log an error if linking is rejected', async () => {
-                const logErrorStub = sandbox.stub(sut.log, 'error');
+                const logErrorStub = sandbox.stub((sut as any).log, 'error');
                 const err = new Error('some error');
                 linkStub.rejects(err);
                 await sut.linkBinsToChildren();

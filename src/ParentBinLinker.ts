@@ -13,15 +13,16 @@ export interface PackageJson {
     bin?: Dictionary;
     devDependencies?: Dictionary;
     dependencies?: Dictionary;
+    localDependencies?: Dictionary;
 }
 
 export class ParentBinLinker {
 
-    log: log4js.Logger;
+    private log: log4js.Logger;
 
     constructor(private options: Options) {
         this.log = log4js.getLogger('ParentBinLinker');
-     }
+    }
 
     private linkBin(binName: string, from: string, childPackage: string): Promise<undefined> {
         const to = path.join(this.options.childDirectoryRoot, childPackage, 'node_modules', '.bin', binName);
@@ -62,6 +63,9 @@ export class ParentBinLinker {
             }
             if (pkg.dependencies && this.options.linkDependencies) {
                 allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.dependencies)));
+            }
+            if (pkg.localDependencies && this.options.linkLocalDependencies) {
+                allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.localDependencies)));
             }
             return Promise.all(allPromises);
         });

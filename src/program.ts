@@ -3,6 +3,7 @@ import * as commander from 'commander';
 export interface Options {
     linkDevDependencies: boolean;
     linkDependencies: boolean;
+    linkLocalDependencies: boolean;
     logLevel: 'debug' | 'info' | 'error';
     childDirectoryRoot: string;
 }
@@ -18,6 +19,7 @@ export const program = {
             .option('-c, --child-directory-root <child-directory>', 'The directory that hosts the child packages relative to the parent root.', 'packages')
             .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
             .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)
+            .option('-o, --link-local-dependencies <true|false>', describeLinking('localDependencies', false), parseBoolean, false)
             .option('-l, --log-level <debug|info|error>', 'Set the log level', /debug|info|error/, 'info')
             .parse(argv) as any) as Options;
     }

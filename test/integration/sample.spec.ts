@@ -13,7 +13,7 @@ const rm = (location: string) => new Promise((res, rej) => rimraf(location, err 
 
 const resolve = (relativePath: string) => path.resolve(__dirname, '../../sample', relativePath);
 
-const exec = (cmd: string, cwd = '') => {
+const execInSample = (cmd: string, cwd = '') => {
     console.log(`exec: ${cmd}`);
     return childProcess.exec(cmd, { cwd: resolve(cwd) }).then(output => {
         const stdout = output[0].toString();
@@ -35,11 +35,18 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     this.timeout(MOCHA_TIMEOUT);
 
     before(() => rm(resolve('node_modules'))
-        .then(() => exec('npm i'))
-        .then(() => exec('npm i file:..'))
-        .then(() => exec('npm run link-parent-bin')));
+        .then(() => execInSample('npm i'))
+        .then(() => execInSample('npm run link-parent-bin')));
 
-    it('should be able to run linked commands from child packages', () => {
-        return expect(exec('npm run hello-world', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/hello world/g);
+    it('should be able to run linked dependency commands from child packages', () => {
+        return expect(execInSample('npm run hello-dependency', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/hello dependency/g);
+    });
+
+    it('should be able to run a linked dev dependency', () => {
+        return expect(execInSample('npm run hello-dev-dependency', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/hello dev dependency/g);
+    });
+
+    it('should be able to run a linked local dependency', () => {
+        return expect(execInSample('npm run link-parent-bin-help', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/Usage: link-parent-bin/g);
     });
 })
