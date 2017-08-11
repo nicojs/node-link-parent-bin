@@ -1,3 +1,12 @@
+<a name="0.1.3"></a>
+## 0.1.3 (2017-08-11)
+
+* chore(versioning): Add conventional changelog ([5211d09](https://github.com/nicojs/node-link-parent-bin/commit/5211d09))
+* docs(changelog): Add changelog ([7f51cdd](https://github.com/nicojs/node-link-parent-bin/commit/7f51cdd))
+* feat(link): Ignore EEXIST error ([020a7e9](https://github.com/nicojs/node-link-parent-bin/commit/020a7e9))
+
+
+
 <a name="0.1.2"></a>
 ## 0.1.2 (2017-06-15)
 
