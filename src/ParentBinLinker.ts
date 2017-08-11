@@ -24,13 +24,14 @@ export class ParentBinLinker {
         this.log = log4js.getLogger('ParentBinLinker');
     }
 
-    private linkBin(binName: string, from: string, childPackage: string): Promise<undefined> {
+    private linkBin(binName: string, from: string, childPackage: string): Promise<void> {
         const to = path.join(this.options.childDirectoryRoot, childPackage, 'node_modules', '.bin', binName);
         this.log.debug('Creating link at %s for command at %s', to, from);
-        return link.link(from, to);
+        return link.link(from, to)
+            .then(() => void 0);
     }
 
-    private linkBinsOfDependencies(childPackages: string[], dependenciesToLink: string[]): Promise<undefined> {
+    private linkBinsOfDependencies(childPackages: string[], dependenciesToLink: string[]): Promise<void> {
         if (this.log.isInfoEnabled()) {
             this.log.info(`Linking dependencies ${JSON.stringify(dependenciesToLink)} under children ${JSON.stringify(childPackages)}`);
         }
@@ -48,8 +49,9 @@ export class ParentBinLinker {
                         this.log.debug('Did not find a bin in dependency %s, skipping.', dependency);
                         return Promise.resolve(undefined);
                     }
-                }).catch(err => this.log.error(`Could not read ${packageFile}`, err))
-        }));
+                })
+                .catch(err => this.log.error(`Could not read ${packageFile}`, err))
+        })).then(() => void 0);
     }
 
     public linkBinsToChildren(): Promise<any> {
@@ -57,7 +59,7 @@ export class ParentBinLinker {
             const contents = results[0];
             const childPackages = results[1];
             const pkg: PackageJson = JSON.parse(contents.toString());
-            const allPromises: Promise<undefined>[] = [];
+            const allPromises: Promise<void>[] = [];
             if (pkg.devDependencies && this.options.linkDevDependencies) {
                 allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.devDependencies)));
             }

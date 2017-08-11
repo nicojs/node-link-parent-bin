@@ -5,6 +5,7 @@ import * as fs from 'mz/fs';
 import { expect } from 'chai';
 import { FSUtils } from './../../src/FSUtils';
 import * as link from '../../src/link';
+import * as log4js from 'log4js';
 const cmdShim = require('cmd-shim');
 
 describe('link', () => {
@@ -13,6 +14,9 @@ describe('link', () => {
     let platform: sinon.SinonStub;
     let symlink: sinon.SinonStub;
     let cmdShimIfExist: sinon.SinonStub;
+    let logStub: {
+        info: sinon.SinonStub;
+    };
 
     beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -20,6 +24,10 @@ describe('link', () => {
         cmdShimIfExist = sandbox.stub(cmdShim, 'ifExists');
         sandbox.stub(FSUtils, 'mkdirp').resolves(undefined);
         platform = sandbox.stub(os, 'platform');
+        logStub = {
+            info: sinon.stub()
+        };
+        sandbox.stub(log4js, 'getLogger').returns(logStub);
     });
 
     afterEach(() => {
@@ -41,6 +49,15 @@ describe('link', () => {
             const err = new Error('some error');
             symlink.rejects(err);
             return expect(link.link(path.resolve('package.json'), 'some/link')).to.be.rejectedWith(err);
+        });
+
+        it('should not symlink when `to` already exists', async () => {
+            const to = path.resolve('package.json');
+            const from = to;
+            sandbox.stub(fs, 'readlink').resolves('something else');
+            await link.link(from, to);
+            expect(fs.symlink).not.called;
+            expect(logStub.info).calledWith(`Different link at '${to}' already exists. Leaving it alone, the package is probably already installed in the child package.`);
         });
     });
 

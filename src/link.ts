@@ -1,5 +1,6 @@
 import { platform } from 'os';
 import * as path from 'path';
+import { getLogger } from 'log4js';
 import * as fs from 'mz/fs';
 import { FSUtils } from './FSUtils';
 
@@ -45,8 +46,16 @@ function linkIfExists(from: string, to: string) {
                     // we don't need to do anything
                     return undefined;
                 } else {
-                    return symlink(from, to);
+                    info(`Different link at '${to}' already exists. Leaving it alone, the package is probably already installed in the child package.`);
                 }
             })
-        ).catch(_ => /* link doesn't exist */ symlink(from, to));
+        ).catch(_ => {
+            /* link doesn't exist */ 
+            return symlink(from, to);
+        });
+}
+
+function info(message: string, ...args: any[]) {
+    const log = getLogger('link');
+    log.info(message, ...args);
 }
