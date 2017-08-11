@@ -16,7 +16,8 @@
     "unitTest": "mocha test/helpers/*.js test/unit/**/*.js",
     "integrationTest": "mocha test/helpers/*.js test/integration/**/*.js",
     "start": "tsc -w",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "version": "conventional-changelog -r 0 > changelog.md"
   },
   "keywords": [],
   "author": "",
