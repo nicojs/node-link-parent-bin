@@ -7,6 +7,10 @@
   "bin": {
     "link-parent-bin": "bin/link-parent-bin"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicojs/node-link-parent-bin.git"
+  },
   "scripts": {
     "clean": "node tasks/clean.js",
     "prebuild": "npm run clean",
