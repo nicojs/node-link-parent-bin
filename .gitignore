@@ -1,4 +1,5 @@
 node_modules
+.stryker-tmp
 *.js
 !tasks/*.js
 *.d.ts
