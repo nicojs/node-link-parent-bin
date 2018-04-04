@@ -18,7 +18,11 @@
                 "${workspaceRoot}/test/**/*.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "sourceMaps": true
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}/test/**/*.js",
+                "${workspaceRoot}/src/**/*.js"
+            ]
         }
     ]
 }
