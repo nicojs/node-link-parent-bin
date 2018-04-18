@@ -5,3 +5,7 @@ node_modules
 *.d.ts
 *.map
 *.log
+
+# IntelliJ project files
+.idea
+*.iml

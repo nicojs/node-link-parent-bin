@@ -10,7 +10,8 @@
         "hello-dev-dependency": "file:./dependencies/hello-dev-dependency"
     },
     "dependencies": {
-        "hello-dependency": "file:./dependencies/hello-dependency"
+        "hello-dependency": "file:./dependencies/hello-dependency",
+        "hello-single-binary-dependency": "file:./dependencies/hello-single-binary-dependency"
     },
     "localDependencies": {
         "link-parent-bin": ".."

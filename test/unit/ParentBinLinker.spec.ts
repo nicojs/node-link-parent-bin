@@ -10,7 +10,6 @@ import { ParentBinLinker, PackageJson } from './../../src/ParentBinLinker';
 describe('ParentBinLinker', () => {
 
     let sandbox: sinon.SinonSandbox;
-    let statStub: sinon.SinonStub;
     let readFileStub: sinon.SinonStub;
     let linkStub: sinon.SinonStub;
     let readDirsStub: sinon.SinonStub;
@@ -27,7 +26,6 @@ describe('ParentBinLinker', () => {
             childDirectoryRoot: 'packages'
         };
         sut = new ParentBinLinker(options);
-        statStub = sandbox.stub(fs, 'stat');
         readDirsStub = sandbox.stub(FSUtils, 'readDirs');
         readFileStub = sandbox.stub(fs, 'readFile');
         linkStub = sandbox.stub(link, 'link');

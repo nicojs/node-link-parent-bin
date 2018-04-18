@@ -49,4 +49,8 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     it('should be able to run a linked local dependency', () => {
         return expect(execInSample('npm run link-parent-bin-help', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/Usage: link-parent-bin/g);
     });
+
+    it('should be able to run a dependency with a single binary', () => {
+        return expect(execInSample('npm run hello-single-binary-dependency', 'packages/child-1')).to.eventually.have.property('stdout').and.match(/hello single-binary-dependency/g);
+    });
 })

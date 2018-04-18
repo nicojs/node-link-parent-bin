@@ -10,7 +10,8 @@ export interface Dictionary {
 }
 
 export interface PackageJson {
-    bin?: Dictionary;
+    name?: string;
+    bin?: Dictionary | string;
     devDependencies?: Dictionary;
     dependencies?: Dictionary;
     localDependencies?: Dictionary;
@@ -35,6 +36,7 @@ export class ParentBinLinker {
         if (this.log.isInfoEnabled()) {
             this.log.info(`Linking dependencies ${JSON.stringify(dependenciesToLink)} under children ${JSON.stringify(childPackages)}`);
         }
+
         return Promise.all(dependenciesToLink.map(dependency => {
             const moduleDir = path.join('node_modules', dependency);
             const packageFile = path.join('node_modules', dependency, 'package.json');
@@ -42,8 +44,9 @@ export class ParentBinLinker {
                 .then(content => {
                     const pkg: PackageJson = JSON.parse(content.toString());
                     if (pkg.bin) {
-                        return Promise.all(Object.keys(pkg.bin).map(bin => Promise.all(childPackages.map(childPackage =>
-                            this.linkBin(bin, path.resolve(moduleDir, pkg.bin[bin]), childPackage)
+                        const binaries = this.binariesFrom(pkg);
+                        return Promise.all(Object.keys(binaries).map(bin => Promise.all(childPackages.map(childPackage =>
+                            this.linkBin(bin, path.resolve(moduleDir, binaries[bin]), childPackage)
                                 .catch(err => this.log.error(`Could not link bin ${bin} for child ${childPackage}.`, err))))));
                     } else {
                         this.log.debug('Did not find a bin in dependency %s, skipping.', dependency);
@@ -71,5 +74,13 @@ export class ParentBinLinker {
             }
             return Promise.all(allPromises);
         });
+    }
+
+    private binariesFrom(pkg: PackageJson): Dictionary {
+        const isString = (val: any): val is string => typeof val === 'string';
+
+        return isString(pkg.bin)
+            ? { [pkg.name]: pkg.bin }
+            : pkg.bin;
     }
 }
