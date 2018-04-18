@@ -29,6 +29,10 @@
   },
   "keywords": [],
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicojs/node-link-parent-bin.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^3.4.35",
