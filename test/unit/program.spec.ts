@@ -18,7 +18,7 @@ describe('program', () => {
                 linkLocalDependencies: false,
                 childDirectoryRoot: 'packages'
             }
-            const actualOptions = program.parse([]);
+            const actualOptions = program.parse(['', '']);
             expect(actualOptions).to.contain.all.keys(defaultOptions);
             expectToInclude(actualOptions, defaultOptions);
         });
