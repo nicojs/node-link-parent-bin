@@ -1,6 +1,6 @@
 {
   "name": "link-parent-bin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "src/ParentBinLinker.js",
   "typings": "src/ParentBinLinker.d.ts",

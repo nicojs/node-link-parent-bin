@@ -1,3 +1,13 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/nicojs/node-link-parent-bin/compare/v0.2.0...v0.2.1) (2018-08-30)
+
+
+### Bug Fixes
+
+* **deps:** Update log4js and commander dependencies ([#9](https://github.com/nicojs/node-link-parent-bin/issues/9)) ([44d3439](https://github.com/nicojs/node-link-parent-bin/commit/44d3439))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/nicojs/node-link-parent-bin/compare/v0.1.3...v0.2.0) (2018-04-18)
 
