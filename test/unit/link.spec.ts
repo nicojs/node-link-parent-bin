@@ -19,6 +19,7 @@ describe('link', () => {
     };
 
     beforeEach(() => {
+        console.log(os.cpus().length);
         symlink = sinon.stub(fs, 'symlink');
         stat = sinon.stub(fs, 'stat');
         cmdShimIfExist = sinon.stub(cmdShim, 'ifExists');
