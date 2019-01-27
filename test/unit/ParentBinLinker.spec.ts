@@ -9,7 +9,6 @@ import { ParentBinLinker, PackageJson } from './../../src/ParentBinLinker';
 
 describe('ParentBinLinker', () => {
 
-    let sandbox: sinon.SinonSandbox;
     let readFileStub: sinon.SinonStub;
     let linkStub: sinon.SinonStub;
     let readDirsStub: sinon.SinonStub;
@@ -17,7 +16,6 @@ describe('ParentBinLinker', () => {
     let options: Options;
 
     beforeEach(() => {
-        sandbox = sinon.sandbox.create();
         options = {
             linkDependencies: false,
             linkDevDependencies: true,
@@ -26,12 +24,12 @@ describe('ParentBinLinker', () => {
             childDirectoryRoot: 'packages'
         };
         sut = new ParentBinLinker(options);
-        readDirsStub = sandbox.stub(FSUtils, 'readDirs');
-        readFileStub = sandbox.stub(fs, 'readFile');
-        linkStub = sandbox.stub(link, 'link');
+        readDirsStub = sinon.stub(FSUtils, 'readDirs');
+        readFileStub = sinon.stub(fs, 'readFile');
+        linkStub = sinon.stub(link, 'link');
     });
 
-    afterEach(() => sandbox.restore());
+    afterEach(() => sinon.restore());
 
     describe('linkBinsToChildren', () => {
 
@@ -99,7 +97,7 @@ describe('ParentBinLinker', () => {
             });
 
             it('should log an error if linking is rejected', async () => {
-                const logErrorStub = sandbox.stub((sut as any).log, 'error');
+                const logErrorStub = sinon.stub((sut as any).log, 'error');
                 const err = new Error('some error');
                 linkStub.rejects(err);
                 await sut.linkBinsToChildren();

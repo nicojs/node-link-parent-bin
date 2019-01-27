@@ -14,7 +14,7 @@ function symlink(from: string, to: string) {
         .then(() => fs.symlink(target, to, 'junction'));
 }
 
-export function link(from: string, to: string) {
+export async function link(from: string, to: string) {
     if (platform() === 'win32') {
         return cmdShimIfExists(from, to);
     } else {
@@ -22,16 +22,22 @@ export function link(from: string, to: string) {
     }
 }
 
-function cmdShimIfExists(from: string, to: string): Promise<void> {
-    return new Promise<void>((res, rej) => {
-        cmdShim.ifExists(from, to, (err: any) => {
-            if (err) {
-                rej(err);
-            } else {
-                res(undefined);
-            }
+async function cmdShimIfExists(from: string, to: string): Promise<void> {
+    try {
+        await fs.stat(to);
+        info(`Link at '${to}' already exists. Leaving it alone.`);
+    } catch (_) {
+        /* link doesn't exist */
+        return new Promise<void>((res, rej) => {
+            cmdShim.ifExists(from, to, (err: any) => {
+                if (err) {
+                    rej(err);
+                } else {
+                    res(undefined);
+                }
+            });
         });
-    });
+    }
 }
 
 function linkIfExists(from: string, to: string) {
@@ -50,7 +56,7 @@ function linkIfExists(from: string, to: string) {
                 }
             })
         ).catch(_ => {
-            /* link doesn't exist */ 
+            /* link doesn't exist */
             return symlink(from, to);
         });
 }
