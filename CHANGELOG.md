@@ -1,3 +1,13 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/nicojs/node-link-parent-bin/compare/v0.2.3...v0.3.0) (2019-01-27)
+
+
+### Features
+
+* **windows shim link:** Preserve shimlink if it already exists ([a15e13e](https://github.com/nicojs/node-link-parent-bin/commit/a15e13e))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/nicojs/node-link-parent-bin/compare/v0.2.2...v0.2.3) (2018-08-30)
 
