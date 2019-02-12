@@ -14,9 +14,7 @@ describe('link', () => {
     let symlink: sinon.SinonStub;
     let stat: sinon.SinonStub;
     let cmdShimIfExist: sinon.SinonStub;
-    let logStub: {
-        info: sinon.SinonStub;
-    };
+    let logStub: sinon.SinonStubbedInstance<log4js.Logger>;
 
     beforeEach(() => {
         symlink = sinon.stub(fs, 'symlink');
@@ -26,7 +24,7 @@ describe('link', () => {
         platform = sinon.stub(os, 'platform');
         logStub = {
             info: sinon.stub()
-        };
+        } as unknown as sinon.SinonStubbedInstance<log4js.Logger>;
         sinon.stub(log4js, 'getLogger').returns(logStub);
     });
 
