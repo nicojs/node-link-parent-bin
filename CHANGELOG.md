@@ -1,3 +1,7 @@
+# [1.0.0](https://github.com/nicojs/node-link-parent-bin/compare/v0.3.0...v1.0.0) (2019-02-12)
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/nicojs/node-link-parent-bin/compare/v0.2.3...v0.3.0) (2019-01-27)
 
