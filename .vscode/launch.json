@@ -10,10 +10,7 @@
             "name": "Unit Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "-u",
-                "tdd",
-                "--timeout",
-                "999999",
+                "--no-timeouts",
                 "--colors",
                 "${workspaceRoot}/test/helpers/*.js",
                 "${workspaceRoot}/test/unit/*.js"
@@ -31,10 +28,7 @@
             "name": "Integration Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "-u",
-                "tdd",
-                "--timeout",
-                "999999",
+                "--no-timeouts",
                 "--colors",
                 "${workspaceRoot}/test/helpers/*.js",
                 "${workspaceRoot}/test/integration/*.js"
