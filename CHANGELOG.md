@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.0...v1.0.1) (2019-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update log4js and commander versions ([4d6982b](https://github.com/nicojs/node-link-parent-bin/commit/4d6982b))
+
+
+
 # [1.0.0](https://github.com/nicojs/node-link-parent-bin/compare/v0.3.0...v1.0.0) (2019-02-12)
 
 
