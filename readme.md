@@ -120,7 +120,7 @@ $ node_modules/.bin/link-parent-bin --help
 ## Use programmatically
 
 ```js
-const linkParentBin = require('link-parent-bin');
+const { ParentBinLinker } = require('link-parent-bin');
 const linker = new ParentBinLinker({ childDirectoryRoot: 'packages', linkDevDependencies: true, linkDependencies: false, linkLocalDependencies: false });
 linker.linkBinsToChildren()
     .then(() => console.log('done'))
