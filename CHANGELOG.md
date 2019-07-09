@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.1...v1.0.2) (2019-07-09)
+
+
+### Features
+
+* **log level:** support log level off ([#11](https://github.com/nicojs/node-link-parent-bin/issues/11)) ([f0cdec3](https://github.com/nicojs/node-link-parent-bin/commit/f0cdec3))
+
+
+
 ## [1.0.1](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.0...v1.0.1) (2019-07-02)
 
 
