@@ -20,7 +20,7 @@ export const program = {
             .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
             .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)
             .option('-o, --link-local-dependencies <true|false>', describeLinking('localDependencies', false), parseBoolean, false)
-            .option('-l, --log-level <debug|info|error>', 'Set the log level', /debug|info|error/, 'info')
+            .option('-l, --log-level <debug|info|error|off>', 'Set the log level', /debug|info|error|off/, 'info')
             .parse(argv) as any;
     }
 } 

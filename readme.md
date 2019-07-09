@@ -114,7 +114,7 @@ $ node_modules/.bin/link-parent-bin --help
     -d, --link-dev-dependencies <true|false>      Enables linking of parents `devDependencies`. Defaults to: true
     -s, --link-dependencies <true|false>          Enables linking of parents `dependencies`. Defaults to: false
     -o, --link-local-dependencies <true|false>    Enables linking of parents `localDependencies`. Defaults to: false
-    -l, --log-level <debug|info|error>            Set the log level
+    -l, --log-level <debug|info|error|off>        Set the log level
 ```
 
 ## Use programmatically
