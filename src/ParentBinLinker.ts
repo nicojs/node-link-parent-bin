@@ -58,7 +58,7 @@ export class ParentBinLinker {
     }
 
     public linkBinsToChildren(): Promise<any> {
-        return Promise.all([fs.readFile('package.json'), FSUtils.readDirs(this.options.childDirectoryRoot)]).then(results => {
+        return Promise.all([fs.readFile('package.json'), FSUtils.readDirs(this.options.childDirectoryRoot, this.options.filter)]).then(results => {
             const contents = results[0];
             const childPackages = results[1];
             const pkg: PackageJson = JSON.parse(contents.toString());

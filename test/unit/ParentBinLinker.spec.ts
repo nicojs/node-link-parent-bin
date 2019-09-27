@@ -21,7 +21,8 @@ describe('ParentBinLinker', () => {
             linkDevDependencies: true,
             linkLocalDependencies: false,
             logLevel: 'info',
-            childDirectoryRoot: 'packages'
+            childDirectoryRoot: 'packages',
+            filter: '*'
         };
         sut = new ParentBinLinker(options);
         readDirsStub = sinon.stub(FSUtils, 'readDirs');

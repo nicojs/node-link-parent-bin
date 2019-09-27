@@ -6,6 +6,7 @@ export interface Options {
     linkLocalDependencies: boolean;
     logLevel: 'debug' | 'info' | 'error';
     childDirectoryRoot: string;
+    filter: string;
 }
 
 const parseBoolean = (val: string) =>  val.toLowerCase() === 'true';
@@ -17,6 +18,7 @@ export const program = {
             .usage('[options]')
             .version(require('../package.json').version)
             .option('-c, --child-directory-root <child-directory>', 'The directory that hosts the child packages relative to the parent root.', 'packages')
+            .option('-f, --filter <pattern>', 'Pattern to be matched', '*')
             .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
             .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)
             .option('-o, --link-local-dependencies <true|false>', describeLinking('localDependencies', false), parseBoolean, false)

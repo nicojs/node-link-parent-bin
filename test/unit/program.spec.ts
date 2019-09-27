@@ -16,7 +16,8 @@ describe('program', () => {
                 linkDependencies: false,
                 linkDevDependencies: true,
                 linkLocalDependencies: false,
-                childDirectoryRoot: 'packages'
+                childDirectoryRoot: 'packages',
+                filter: '*'
             }
             const actualOptions = program.parse(['', '']);
             expect(actualOptions).to.contain.all.keys(defaultOptions);
@@ -28,9 +29,10 @@ describe('program', () => {
                 linkDependencies: true,
                 linkDevDependencies: false,
                 linkLocalDependencies: false,
-                childDirectoryRoot: 'some-other-folder'
+                childDirectoryRoot: 'some-other-folder',
+                filter: 'child-*'
             }
-            const actualOptions = program.parse(['', '', '--link-dev-dependencies', 'false', '--link-dependencies', 'true', '-l', 'error', '--child-directory-root', 'some-other-folder']);
+            const actualOptions = program.parse(['', '', '--link-dev-dependencies', 'false', '--link-dependencies', 'true', '-l', 'error', '--child-directory-root', 'some-other-folder', '--filter', 'child-*']);
             expect(actualOptions).to.contain.all.keys(expected);
             expectToInclude(actualOptions, expected);
         });
