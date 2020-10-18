@@ -32,48 +32,45 @@ export class ParentBinLinker {
             .then(() => void 0);
     }
 
-    private linkBinsOfDependencies(childPackages: string[], dependenciesToLink: string[]): Promise<void> {
+    private async linkBinsOfDependencies(childPackages: string[], dependenciesToLink: string[]): Promise<void> {
         if (this.log.isInfoEnabled()) {
             this.log.info(`Linking dependencies ${JSON.stringify(dependenciesToLink)} under children ${JSON.stringify(childPackages)}`);
         }
 
-        return Promise.all(dependenciesToLink.map(dependency => {
+        await Promise.all(dependenciesToLink.map(async dependency => {
             const moduleDir = path.join('node_modules', dependency);
             const packageFile = path.join('node_modules', dependency, 'package.json');
-            return fs.readFile(packageFile)
-                .then(content => {
-                    const pkg: PackageJson = JSON.parse(content.toString());
-                    if (pkg.bin) {
-                        const binaries = this.binariesFrom(pkg);
-                        return Promise.all(Object.keys(binaries).map(bin => Promise.all(childPackages.map(childPackage =>
-                            this.linkBin(bin, path.resolve(moduleDir, binaries[bin]), childPackage)
-                                .catch(err => this.log.error(`Could not link bin ${bin} for child ${childPackage}.`, err))))));
-                    } else {
-                        this.log.debug('Did not find a bin in dependency %s, skipping.', dependency);
-                        return Promise.resolve(undefined);
-                    }
-                })
-                .catch(err => this.log.error(`Could not read ${packageFile}`, err))
-        })).then(() => void 0);
+            try {
+                const content = await fs.readFile(packageFile);
+                const pkg: PackageJson = JSON.parse(content.toString());
+                if (pkg.bin) {
+                    const binaries = this.binariesFrom(pkg);
+                    return Promise.all(Object.keys(binaries).map(bin => Promise.all(childPackages.map(childPackage => this.linkBin(bin, path.resolve(moduleDir, binaries[bin]), childPackage)
+                        .catch(err => this.log.error(`Could not link bin ${bin} for child ${childPackage}.`, err))))));
+                } else {
+                    this.log.debug('Did not find a bin in dependency %s, skipping.', dependency);
+                }
+            } catch (err) {
+                return this.log.error(`Could not read ${packageFile}`, err);
+            }
+        }));
+        return void 0;
     }
 
-    public linkBinsToChildren(): Promise<any> {
-        return Promise.all([fs.readFile('package.json'), FSUtils.readDirs(this.options.childDirectoryRoot)]).then(results => {
-            const contents = results[0];
-            const childPackages = results[1];
-            const pkg: PackageJson = JSON.parse(contents.toString());
-            const allPromises: Promise<void>[] = [];
-            if (pkg.devDependencies && this.options.linkDevDependencies) {
-                allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.devDependencies)));
-            }
-            if (pkg.dependencies && this.options.linkDependencies) {
-                allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.dependencies)));
-            }
-            if (pkg.localDependencies && this.options.linkLocalDependencies) {
-                allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.localDependencies)));
-            }
-            return Promise.all(allPromises);
-        });
+    public async linkBinsToChildren(): Promise<any> {
+        const [contents, childPackages] = await Promise.all([fs.readFile('package.json'), FSUtils.readDirs(this.options.childDirectoryRoot)]);
+        const pkg: PackageJson = JSON.parse(contents.toString());
+        const allPromises: Promise<void>[] = [];
+        if (pkg.devDependencies && this.options.linkDevDependencies) {
+            allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.devDependencies)));
+        }
+        if (pkg.dependencies && this.options.linkDependencies) {
+            allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.dependencies)));
+        }
+        if (pkg.localDependencies && this.options.linkLocalDependencies) {
+            allPromises.push(this.linkBinsOfDependencies(childPackages, Object.keys(pkg.localDependencies)));
+        }
+        return Promise.all(allPromises);
     }
 
     private binariesFrom(pkg: PackageJson): Dictionary {
