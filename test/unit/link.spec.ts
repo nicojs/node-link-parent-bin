@@ -28,9 +28,6 @@ describe('link', () => {
         sinon.stub(log4js, 'getLogger').returns(logStub);
     });
 
-    afterEach(() => {
-        sinon.restore();
-    });
 
     describe('when platform !== win32', () => {
 

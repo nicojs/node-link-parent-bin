@@ -17,7 +17,7 @@ export const program = {
         return program
             .storeOptionsAsProperties(false)
             .usage('[options]')
-            .version(require('../package.json').version)
+            .version(require('../../package.json').version)
             .option('-c, --child-directory-root <child-directory>', 'The directory that hosts the child packages relative to the parent root.', 'packages')
             .option('-d, --link-dev-dependencies <true|false>', describeLinking('devDependencies', true), parseBoolean, true)
             .option('-s, --link-dependencies <true|false>', describeLinking('dependencies', false), parseBoolean, false)

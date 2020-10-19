@@ -1,7 +1,5 @@
 **/*
 !bin/**
 !src/**
-src/**/*.map
-src/**/*.ts
-!src/**/*.d.ts
+!dist/src/**
 !readme.md
