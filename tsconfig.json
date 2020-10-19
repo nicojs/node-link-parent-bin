@@ -1,22 +1,11 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "outDir": "dist",
-        "resolveJsonModule": true,
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noFallthroughCasesInSwitch": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "forceConsistentCasingInFileNames": true,
-        "declaration": true,
-        "lib": [
-            "es2015.promise",
-            "es2015.collection",
-            "es5"
-        ]
+  "files": [],
+  "references": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "test"
     }
+  ]
 }

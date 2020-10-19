@@ -2,4 +2,5 @@
 !bin/**
 !src/**
 !dist/src/**
+dist/src/**/*.tsbuildinfo
 !readme.md
