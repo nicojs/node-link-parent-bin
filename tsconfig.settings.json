@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "composite": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "types": ["node"],
+    "lib": [
+      "es2017"
+    ]
+  }
+}
