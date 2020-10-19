@@ -1,10 +1,8 @@
 node_modules
-.stryker-tmp
+/.stryker-tmp
 *.js
 !tasks/*.js
-*.d.ts
-*.map
-*.log
+/dist
 
 # IntelliJ project files
 .idea

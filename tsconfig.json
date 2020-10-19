@@ -3,6 +3,7 @@
         "module": "commonjs",
         "target": "es5",
         "outDir": "dist",
+        "resolveJsonModule": true,
         "noImplicitAny": true,
         "sourceMap": true,
         "noImplicitReturns": true,
