@@ -5,19 +5,19 @@ import * as log4js from 'log4js';
 import * as sinon from 'sinon';
 
 log4js.configure({
-    appenders: {
-        console: { type: 'stdout' }
-    },
-    categories: {
-        default: { appenders: ['console'], level: 'fatal' }
-    }
+  appenders: {
+    console: { type: 'stdout' },
+  },
+  categories: {
+    default: { appenders: ['console'], level: 'fatal' },
+  },
 });
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
 export const mochaHooks = {
-    afterEach() {
-        sinon.restore();
-    }
-}
+  afterEach(): void {
+    sinon.restore();
+  },
+};
