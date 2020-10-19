@@ -11,7 +11,7 @@ const rm = (location: string) => new Promise((res, rej) => rimraf(location, err 
     }
 }));
 
-const resolve = (relativePath: string) => path.resolve(__dirname, '../../sample', relativePath);
+const resolve = (relativePath: string) => path.resolve(__dirname, '../../../sample', relativePath);
 
 const execInSample = (cmd: string, cwd = '') => {
     console.log(`exec: ${cmd}`);

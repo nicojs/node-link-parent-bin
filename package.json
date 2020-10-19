@@ -2,8 +2,7 @@
   "name": "link-parent-bin",
   "version": "1.0.2",
   "description": "",
-  "main": "src/ParentBinLinker.js",
-  "typings": "src/ParentBinLinker.d.ts",
+  "main": "dist/src/ParentBinLinker.js",
   "bin": {
     "link-parent-bin": "bin/link-parent-bin"
   },
@@ -15,15 +14,14 @@
     "node": ">=10"
   },
   "scripts": {
-    "clean": "node tasks/clean.js",
-    "prebuild": "npm run clean",
+    "all": "npm run clean && npm run build && npm run test",
+    "clean": "rimraf dist reports",
     "build": "tsc -p .",
-    "pretest": "npm run build",
-    "test": "npm run unitTest && npm run integrationTest",
-    "unitTest": "mocha test/helpers/*.js test/unit/**/*.js",
-    "integrationTest": "mocha test/helpers/*.js test/integration/**/*.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "mocha dist/test/unit/**/*.js",
+    "test:integration": "mocha dist/test/integration/**/*.js",
     "start": "tsc -w",
-    "preversion": "npm test",
+    "preversion": "npm run all",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "postversion": "npm publish && git push && git push --tags",
     "release:patch": "npm version patch -m \"chore(release): %s\"",

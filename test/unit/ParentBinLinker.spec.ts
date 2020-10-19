@@ -29,8 +29,6 @@ describe('ParentBinLinker', () => {
         linkStub = sinon.stub(link, 'link');
     });
 
-    afterEach(() => sinon.restore());
-
     describe('linkBinsToChildren', () => {
 
         it('should reject when `readFile` rejects', () => {

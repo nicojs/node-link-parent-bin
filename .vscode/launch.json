@@ -12,14 +12,12 @@
             "args": [
                 "--no-timeouts",
                 "--colors",
-                "${workspaceRoot}/test/helpers/*.js",
-                "${workspaceRoot}/test/unit/*.js"
+                "${workspaceRoot}/dist/test/unit/*.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/test/**/*.js",
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ]
         },
         {
@@ -30,14 +28,12 @@
             "args": [
                 "--no-timeouts",
                 "--colors",
-                "${workspaceRoot}/test/helpers/*.js",
-                "${workspaceRoot}/test/integration/*.js"
+                "${workspaceRoot}/dist/test/integration/*.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/test/**/*.js",
-                "${workspaceRoot}/src/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ]
         }
     ]

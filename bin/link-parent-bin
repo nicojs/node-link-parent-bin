@@ -4,4 +4,4 @@
 
 process.title = 'parent-bin';
 
-require('../src/cli');
+require('../dist/src/cli');
