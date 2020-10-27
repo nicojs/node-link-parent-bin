@@ -81,7 +81,7 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     const result = await expect(
       execInSample('npm run fail-now', 'packages/child-1'),
     ).rejected;
-    expect(result.exitCode).contains(3);
+    expect(result.exitCode).eq(3);
     expect(result.stdout).contains('Fail now!');
   });
 });
