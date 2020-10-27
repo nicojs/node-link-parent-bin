@@ -11,5 +11,8 @@
         },
         "**/*.d.ts": true,
         "**/*.map": true
-    }
+    },
+    "cSpell.words": [
+        "execa"
+    ]
 }

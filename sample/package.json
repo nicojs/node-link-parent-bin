@@ -11,6 +11,7 @@
         "install-local": "^0.6.0"
     },
     "dependencies": {
+        "fail-dependency": "file:./dependencies/fail-dependency",
         "hello-dependency": "file:./dependencies/hello-dependency",
         "hello-single-binary-dependency": "file:./dependencies/hello-single-binary-dependency"
     },
