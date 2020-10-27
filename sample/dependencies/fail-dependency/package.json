@@ -1,0 +1,7 @@
+{
+  "name": "fail-dependency",
+  "version": "0.0.0",
+  "bin": {
+      "fail-now": "fail-now"
+  }
+}
