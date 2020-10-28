@@ -5,6 +5,9 @@ import * as path from 'path';
 export class FSUtils {
   static mkdirp = mkdirp;
 
+  /**
+   * Reads dirs only
+   */
   static readDirs = async (location: string): Promise<string[]> => {
     const files = await fs.readdir(location);
     const filesWithStats = await Promise.all(

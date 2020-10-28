@@ -104,17 +104,17 @@ This way, other developers don't have to run this script manually.
 ```bash
 $ node_modules/.bin/link-parent-bin --help
 
-  Usage: link-parent-bin [options]
+Usage: link-parent-bin [options]
 
-  Options:
-
-    -h, --help                                    output usage information
-    -V, --version                                 output the version number
-    -c, --child-directory-root <child-directory>  The directory that hosts the child packages relative to the parent root.
-    -d, --link-dev-dependencies <true|false>      Enables linking of parents `devDependencies`. Defaults to: true
-    -s, --link-dependencies <true|false>          Enables linking of parents `dependencies`. Defaults to: false
-    -o, --link-local-dependencies <true|false>    Enables linking of parents `localDependencies`. Defaults to: false
-    -l, --log-level <debug|info|error|off>        Set the log level
+Options:
+  -V, --version                                 output the version number
+  -c, --child-directory-root <child-directory>  The directory that hosts the child packages relative to the parent root. (default: "packages")
+  -d, --link-dev-dependencies <true|false>      Enables linking of parents `devDependencies`. Defaults to: true (default: true)
+  -s, --link-dependencies <true|false>          Enables linking of parents `dependencies`. Defaults to: false (default: false)
+  -o, --link-local-dependencies <true|false>    Enables linking of parents `localDependencies`. Defaults to: false (default: false)
+  -l, --log-level <debug|info|error|off>        Set the log level (default: "info")
+  --filter <pattern>                            Specify a [minimatch](https://www.npmjs.com/package/minimatch) glob pattern to specify which child packages under the child packages directory should receive symlinks. (default: "*")
+  -h, --help                                    display help for command
 ```
 
 ## Use programmatically

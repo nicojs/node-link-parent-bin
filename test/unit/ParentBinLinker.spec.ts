@@ -21,6 +21,7 @@ describe('ParentBinLinker', () => {
       linkLocalDependencies: false,
       logLevel: 'info',
       childDirectoryRoot: 'packages',
+      filter: 'child-*',
     };
     sut = new ParentBinLinker(options);
     readDirsStub = sinon.stub(FSUtils, 'readDirs');
@@ -156,6 +157,34 @@ describe('ParentBinLinker', () => {
             'node_modules',
             '.bin',
             'devDep',
+          ),
+        );
+      });
+
+      it('should only symlink in filtered packages', async () => {
+        options.filter = 'child-1';
+        const devDepSH = path.resolve('node_modules', 'devDep-1', 'devDep.sh');
+        const devDepAwesomeSH = path.resolve(
+          'node_modules',
+          'devDep-1',
+          'devDepAwesome.sh',
+        );
+
+        await sut.linkBinsToChildren();
+        expect(linkStub).calledTwice;
+        expect(linkStub).calledWith(
+          devDepSH,
+          path.join('packages', 'child-1', 'node_modules', '.bin', 'devDep'),
+        );
+
+        expect(linkStub).calledWith(
+          devDepAwesomeSH,
+          path.join(
+            'packages',
+            'child-1',
+            'node_modules',
+            '.bin',
+            'devDepAwesome',
           ),
         );
       });

@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "link-parent-bin": "link-parent-bin --log-level debug -s true -o true",
+        "link-parent-bin": "link-parent-bin --log-level debug -s true -o true --filter '+(fail|hello)*'",
         "postinstall": "install-local"
     },
     "devDependencies": {

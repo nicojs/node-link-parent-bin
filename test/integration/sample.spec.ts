@@ -84,4 +84,9 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     expect(result.exitCode).eq(3);
     expect(result.stdout).contains('Fail now!');
   });
+
+  it('should not link in ignored patterns', async () => {
+    await expect(execInSample('npm run hello-dependency', 'packages/ignored'))
+      .rejected;
+  });
 });
