@@ -1,9 +1,9 @@
 import { platform } from 'os';
-import * as path from 'path';
+import path from 'path';
 import { getLogger } from 'log4js';
-import * as fs from 'mz/fs';
+import { promises as fs } from 'fs';
 import { FSUtils } from './FSUtils';
-import * as cmdShim from 'cmd-shim';
+import cmdShim from 'cmd-shim';
 
 async function symlink(from: string, to: string) {
   to = path.resolve(to);

@@ -1,6 +1,6 @@
-import * as mkdirp from 'mkdirp';
-import * as fs from 'mz/fs';
-import * as path from 'path';
+import mkdirp from 'mkdirp';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export class FSUtils {
   static mkdirp = mkdirp;

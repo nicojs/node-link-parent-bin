@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fs from 'mz/fs';
+import path from 'path';
+import { promises as fs } from 'fs';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Options } from './../../src/program';
