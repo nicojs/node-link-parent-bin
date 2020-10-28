@@ -33,6 +33,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: test-mutation
-        run: npm run test:mutation
+        run: npm run test:mutation -- --concurrency 3
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}

@@ -8,9 +8,13 @@
     "dashboard"
   ],
   "buildCommand": "tsc -b",
+  "checkers": ["typescript"],
   "testRunner": "mocha",
   "coverageAnalysis": "perTest",
   "mochaOptions": {
     "spec": ["dist/test/unit/**/*.js"]
+  },
+  "thresholds": {
+    "break": 60
   }
 }
