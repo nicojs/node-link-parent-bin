@@ -1,3 +1,25 @@
+# [2.0.0](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.2...v2.0.0) (2020-10-28)
+
+
+### chore
+
+* general quality of life improvements ([#25](https://github.com/nicojs/node-link-parent-bin/issues/25)) ([f78820c](https://github.com/nicojs/node-link-parent-bin/commit/f78820cf9bf08821488044d66b3baf91e13db102))
+* **deps:** update dependencies ([6ae5ec8](https://github.com/nicojs/node-link-parent-bin/commit/6ae5ec813c6e4a078bde1d9cfb6709b93de63394))
+
+
+### Features
+
+* **filter:** support child packages filter ([#29](https://github.com/nicojs/node-link-parent-bin/issues/29)) ([915d99e](https://github.com/nicojs/node-link-parent-bin/commit/915d99e44576e58b827ace965cf86075e8038d89))
+* **log:** log a summary ([#32](https://github.com/nicojs/node-link-parent-bin/issues/32)) ([332aa13](https://github.com/nicojs/node-link-parent-bin/commit/332aa13a9f6e72e2bd33227aaa58fd0a3cc159b1))
+
+
+### BREAKING CHANGES
+
+* JS output files are now located in the `dist` directory. This only has an effect if you're requiring directly from it.
+* **deps:** Node 8 is no longer actively supported
+
+
+
 ## [1.0.2](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.1...v1.0.2) (2019-07-09)
 
 
