@@ -3,6 +3,7 @@ node_modules
 *.js
 !tasks/*.js
 /dist
+/reports
 
 # IntelliJ project files
 .idea
