@@ -1,7 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import { Options } from './../../src/program';
 import { FSUtils } from './../../src/FSUtils';
 import * as link from './../../src/link';
