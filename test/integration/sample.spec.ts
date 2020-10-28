@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import execa = require('execa');
-import * as path from 'path';
-import * as rimraf from 'rimraf';
+import path from 'path';
+import rimraf from 'rimraf';
 
 const rm = (location: string) =>
   new Promise((res, rej) =>

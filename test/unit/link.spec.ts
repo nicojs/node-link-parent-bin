@@ -1,12 +1,12 @@
-import * as path from 'path';
-import * as os from 'os';
-import * as sinon from 'sinon';
-import * as fs from 'mz/fs';
+import path from 'path';
+import os from 'os';
+import sinon from 'sinon';
+import { promises as fs } from 'fs';
 import { expect } from 'chai';
 import { FSUtils } from './../../src/FSUtils';
 import * as link from '../../src/link';
-import * as log4js from 'log4js';
-import * as cmdShim from 'cmd-shim';
+import log4js from 'log4js';
+import cmdShim from 'cmd-shim';
 
 describe('link', () => {
   let platform: sinon.SinonStub;

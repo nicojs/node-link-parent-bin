@@ -1,5 +1,5 @@
-import * as fs from 'mz/fs';
-import * as path from 'path';
+import { promises as fs } from 'fs';
+import path from 'path';
 import * as log4js from 'log4js';
 import * as link from './link';
 import * as minimatch from 'minimatch';
@@ -66,7 +66,7 @@ export class ParentBinLinker {
           const content = await fs.readFile(packageFile);
           const pkg: PackageJson = JSON.parse(content.toString());
           if (pkg.bin) {
-            const binaries = this.binariesFrom(pkg);
+            const binaries = this.binariesFrom(pkg, pkg.bin);
             return Promise.all(
               Object.keys(binaries).map((bin) =>
                 Promise.all(
@@ -135,9 +135,10 @@ export class ParentBinLinker {
     await Promise.all(allPromises);
   }
 
-  private binariesFrom(pkg: PackageJson): Dictionary {
-    const isString = (val: unknown): val is string => typeof val === 'string';
-
-    return isString(pkg.bin) ? { [pkg.name]: pkg.bin } : pkg.bin;
+  private binariesFrom(
+    pkg: { name?: string },
+    bin: Dictionary | string,
+  ): Dictionary {
+    return typeof bin === 'string' ? { [pkg.name ?? '']: bin } : bin;
   }
 }
