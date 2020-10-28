@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/nicojs/node-link-parent-bin.svg?branch=master)](https://travis-ci.org/nicojs/node-link-parent-bin)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fnicojs%2Fnode-link-parent-bin%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/nicojs/node-link-parent-bin/master)
+![CI](https://github.com/nicojs/node-link-parent-bin/workflows/CI/badge.svg)
 
 # Link parent bin
 
