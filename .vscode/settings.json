@@ -1,17 +1,5 @@
 {
     "typescript.tsdk": "node_modules/typescript/lib",
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/*.js": {
-            "when": "$(basename).ts"
-        },
-        "**/*.d.ts": true,
-        "**/*.map": true
-    },
     "cSpell.words": [
         "execa"
     ]

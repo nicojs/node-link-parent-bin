@@ -4,6 +4,7 @@ export interface Options {
   linkDevDependencies: boolean;
   linkDependencies: boolean;
   linkLocalDependencies: boolean;
+  filter: string;
   logLevel: 'debug' | 'info' | 'error';
   childDirectoryRoot: string;
 }
@@ -49,6 +50,11 @@ export const program = {
           'Set the log level',
           /debug|info|error|off/,
           'info',
+        )
+        .option(
+          '--filter <pattern>',
+          'Specify a [minimatch](https://www.npmjs.com/package/minimatch) glob pattern to specify which child packages under the child packages directory should receive symlinks.',
+          '*',
         )
         .parse(argv)
         .opts() as Options

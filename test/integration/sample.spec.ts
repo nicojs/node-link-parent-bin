@@ -41,7 +41,11 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
   before(() =>
     rm(resolve('node_modules'))
       .then(() => execInSample('npm i'))
-      .then(() => execInSample('npm run link-parent-bin')),
+      .then(() =>
+        execInSample(
+          'npx link-parent-bin --log-level debug -s true -o true --filter child-1',
+        ),
+      ),
   );
 
   it('should be able to run linked dependency commands from child packages', () => {
@@ -83,5 +87,10 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     ).rejected;
     expect(result.exitCode).eq(3);
     expect(result.stdout).contains('Fail now!');
+  });
+
+  it('should not link in ignored patterns', async () => {
+    await expect(execInSample('npm run hello-dependency', 'packages/ignored'))
+      .rejected;
   });
 });

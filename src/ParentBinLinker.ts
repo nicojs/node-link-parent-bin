@@ -2,6 +2,7 @@ import * as fs from 'mz/fs';
 import * as path from 'path';
 import * as log4js from 'log4js';
 import * as link from './link';
+import * as minimatch from 'minimatch';
 import { Options } from './program';
 import { FSUtils } from './FSUtils';
 
@@ -101,7 +102,9 @@ export class ParentBinLinker {
   public async linkBinsToChildren(): Promise<void> {
     const [contents, childPackages] = await Promise.all([
       fs.readFile('package.json'),
-      FSUtils.readDirs(this.options.childDirectoryRoot),
+      FSUtils.readDirs(this.options.childDirectoryRoot).then((dirs) =>
+        dirs.filter(minimatch.filter(this.options.filter)),
+      ),
     ]);
     const pkg: PackageJson = JSON.parse(contents.toString());
     const allPromises: Promise<void>[] = [];
