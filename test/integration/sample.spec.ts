@@ -89,6 +89,11 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
     expect(result.stdout).contains('Fail now!');
   });
 
+  it('should support scoped packages', async () => {
+    const result = await execInSample('npm run hello-org', 'packages/child-1');
+    expect(result.stdout).contains('hello org');
+  });
+
   it('should not link in ignored patterns', async () => {
     await expect(execInSample('npm run hello-dependency', 'packages/ignored'))
       .rejected;

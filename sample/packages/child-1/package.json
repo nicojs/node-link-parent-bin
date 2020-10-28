@@ -1,12 +1,13 @@
 {
-    "name": "child-1",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "hello-dependency": "helloDependency",
-        "hello-dev-dependency": "helloDevDependency",
-        "hello-single-binary-dependency": "hello-single-binary-dependency",
-        "link-parent-bin-help": "link-parent-bin --help",
-        "fail-now": "fail-now"
-    }
+  "name": "child-1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "hello-org": "hello-org",
+    "hello-dependency": "helloDependency",
+    "hello-dev-dependency": "helloDevDependency",
+    "hello-single-binary-dependency": "hello-single-binary-dependency",
+    "link-parent-bin-help": "link-parent-bin --help",
+    "fail-now": "fail-now"
+  }
 }

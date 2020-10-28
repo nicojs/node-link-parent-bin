@@ -12,7 +12,8 @@
     "dependencies": {
         "fail-dependency": "file:./dependencies/fail-dependency",
         "hello-dependency": "file:./dependencies/hello-dependency",
-        "hello-single-binary-dependency": "file:./dependencies/hello-single-binary-dependency"
+        "hello-single-binary-dependency": "file:./dependencies/hello-single-binary-dependency",
+        "@hello-org/core": "file:./dependencies/hello-org"
     },
     "localDependencies": {
         "link-parent-bin": ".."
