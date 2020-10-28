@@ -7,7 +7,7 @@
     },
     "devDependencies": {
         "hello-dev-dependency": "file:./dependencies/hello-dev-dependency",
-        "install-local": "^0.6.0"
+        "install-local": "^3.0.1"
     },
     "dependencies": {
         "fail-dependency": "file:./dependencies/fail-dependency",
