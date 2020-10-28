@@ -1,11 +1,13 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { expect } from 'chai';
+import log4js, { Logger } from 'log4js';
 import sinon from 'sinon';
 import { Options } from './../../src/program';
 import { FSUtils } from './../../src/FSUtils';
 import * as link from './../../src/link';
 import { ParentBinLinker, PackageJson } from './../../src/ParentBinLinker';
+import { createLoggerMock } from '../helpers/createLogStub';
 
 describe('ParentBinLinker', () => {
   let readFileStub: sinon.SinonStub;
@@ -13,8 +15,11 @@ describe('ParentBinLinker', () => {
   let readDirsStub: sinon.SinonStub;
   let sut: ParentBinLinker;
   let options: Options;
+  let loggerMock: sinon.SinonStubbedInstance<Logger>;
 
   beforeEach(() => {
+    loggerMock = createLoggerMock();
+    sinon.stub(log4js, 'getLogger').returns(loggerMock);
     options = {
       linkDependencies: false,
       linkDevDependencies: true,
@@ -27,6 +32,7 @@ describe('ParentBinLinker', () => {
     readDirsStub = sinon.stub(FSUtils, 'readDirs');
     readFileStub = sinon.stub(fs, 'readFile');
     linkStub = sinon.stub(link, 'link');
+    linkStub.resolves({ status: 'success' } as link.LinkResult);
   });
 
   describe('linkBinsToChildren', () => {
@@ -72,7 +78,6 @@ describe('ParentBinLinker', () => {
       });
 
       it('should link only devDependencies', async () => {
-        linkStub.resolves(undefined);
         const devDepSH = path.resolve('node_modules', 'devDep-1', 'devDep.sh');
         const devDepAwesomeSH = path.resolve(
           'node_modules',
@@ -113,7 +118,6 @@ describe('ParentBinLinker', () => {
 
       it('should link dependencies if that is configured', async () => {
         // Arrange
-        linkStub.resolves(undefined);
         options.linkDependencies = true;
         options.linkDevDependencies = false;
         const depSH = path.resolve('node_modules', 'dep-1', 'dep.sh');
@@ -134,15 +138,14 @@ describe('ParentBinLinker', () => {
       });
 
       it('should log an error if linking is rejected', async () => {
-        const logErrorStub = sinon.stub(sut.log, 'error');
         const err = new Error('some error');
         linkStub.rejects(err);
         await sut.linkBinsToChildren();
-        expect(logErrorStub).calledWith(
+        expect(loggerMock.error).calledWith(
           'Could not link bin devDep for child child-1.',
           err,
         );
-        expect(logErrorStub).callCount(4);
+        expect(loggerMock.error).callCount(4);
       });
 
       it('should use a different child dir if configures', async () => {
@@ -158,6 +161,26 @@ describe('ParentBinLinker', () => {
             '.bin',
             'devDep',
           ),
+        );
+      });
+
+      it('should log a summary on info', async () => {
+        options.linkDependencies = true;
+        options.linkDevDependencies = true;
+        const results: link.LinkResult[] = [
+          { status: 'alreadyExists' },
+          { status: 'differentLinkAlreadyExists' },
+          { status: 'success' },
+        ];
+
+        linkStub.onFirstCall().returns(results[0]);
+        linkStub.onSecondCall().returns(results[1]);
+        linkStub.onThirdCall().returns(results[2]);
+
+        await sut.linkBinsToChildren();
+
+        expect(loggerMock.info).calledWith(
+          'Symlinked 4 bin(s) (1 link(s) already exists, 1 different link(s) already exists, 0 error(s)). Run with debug log level for more info.',
         );
       });
 
