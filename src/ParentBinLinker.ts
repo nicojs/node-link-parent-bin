@@ -29,7 +29,7 @@ export class ParentBinLinker {
     binName: string,
     from: string,
     childPackage: string,
-  ): Promise<void> {
+  ): Promise<link.LinkResult> {
     const to = path.join(
       this.options.childDirectoryRoot,
       childPackage,
@@ -38,14 +38,13 @@ export class ParentBinLinker {
       binName,
     );
     this.log.debug('Creating link at %s for command at %s', to, from);
-    await link.link(from, to);
-    return void 0;
+    return link.link(from, to);
   }
 
   private async linkBinsOfDependencies(
     childPackages: string[],
     dependenciesToLink: string[],
-  ): Promise<void> {
+  ): Promise<link.LinkResult[]> {
     if (this.log.isInfoEnabled()) {
       this.log.info(
         `Linking dependencies ${JSON.stringify(
@@ -54,7 +53,7 @@ export class ParentBinLinker {
       );
     }
 
-    await Promise.all(
+    const results = await Promise.all(
       dependenciesToLink.map(async (dependency) => {
         const moduleDir = path.join('node_modules', dependency);
         const packageFile = path.join(
@@ -67,7 +66,7 @@ export class ParentBinLinker {
           const pkg: PackageJson = JSON.parse(content.toString());
           if (pkg.bin) {
             const binaries = this.binariesFrom(pkg, pkg.bin);
-            return Promise.all(
+            const linkResultArrays = await Promise.all(
               Object.keys(binaries).map((bin) =>
                 Promise.all(
                   childPackages.map((childPackage) =>
@@ -75,31 +74,36 @@ export class ParentBinLinker {
                       bin,
                       path.resolve(moduleDir, binaries[bin]),
                       childPackage,
-                    ).catch((err) =>
+                    ).catch((err) => {
                       this.log.error(
                         `Could not link bin ${bin} for child ${childPackage}.`,
                         err,
-                      ),
-                    ),
+                      );
+                      const result: link.LinkResult = { status: 'error' };
+                      return result;
+                    }),
                   ),
                 ),
               ),
             );
+            return flatten(linkResultArrays);
           } else {
             this.log.debug(
               'Did not find a bin in dependency %s, skipping.',
               dependency,
             );
+            return [];
           }
         } catch (err) {
-          return this.log.error(`Could not read ${packageFile}`, err);
+          this.log.error(`Could not read ${packageFile}`, err);
+          return [];
         }
       }),
     );
-    return void 0;
+    return flatten(results);
   }
 
-  public async linkBinsToChildren(): Promise<void> {
+  public async linkBinsToChildren(): Promise<link.LinkResult[]> {
     const [contents, childPackages] = await Promise.all([
       fs.readFile('package.json'),
       FSUtils.readDirs(this.options.childDirectoryRoot).then((dirs) =>
@@ -107,7 +111,7 @@ export class ParentBinLinker {
       ),
     ]);
     const pkg: PackageJson = JSON.parse(contents.toString());
-    const allPromises: Promise<void>[] = [];
+    const allPromises: Promise<link.LinkResult[]>[] = [];
     if (pkg.devDependencies && this.options.linkDevDependencies) {
       allPromises.push(
         this.linkBinsOfDependencies(
@@ -132,7 +136,18 @@ export class ParentBinLinker {
         ),
       );
     }
-    await Promise.all(allPromises);
+    const resultArrays = await Promise.all(allPromises);
+    const results = flatten(resultArrays);
+    const {
+      successCount,
+      differentLinkAlreadyExistsCount,
+      alreadyExistsCount,
+      errorCount,
+    } = summary(results);
+    this.log.info(
+      `Symlinked ${successCount} bin(s) (${alreadyExistsCount} link(s) already exists, ${differentLinkAlreadyExistsCount} different link(s) already exists, ${errorCount} error(s)). Run with debug log level for more info.`,
+    );
+    return results;
   }
 
   private binariesFrom(
@@ -141,4 +156,37 @@ export class ParentBinLinker {
   ): Dictionary {
     return typeof bin === 'string' ? { [pkg.name ?? '']: bin } : bin;
   }
+}
+
+function summary(linkResults: link.LinkResult[]) {
+  let successCount = 0;
+  let errorCount = 0;
+  let alreadyExistsCount = 0;
+  let differentLinkAlreadyExistsCount = 0;
+  for (const { status } of linkResults) {
+    switch (status) {
+      case 'success':
+        successCount++;
+        break;
+      case 'alreadyExists':
+        alreadyExistsCount++;
+        break;
+      case 'differentLinkAlreadyExists':
+        differentLinkAlreadyExistsCount++;
+        break;
+      case 'error':
+        errorCount++;
+        break;
+    }
+  }
+  return {
+    successCount,
+    errorCount,
+    alreadyExistsCount,
+    differentLinkAlreadyExistsCount,
+  };
+}
+
+function flatten<T>(arrayOfArrays: T[][]): T[] {
+  return arrayOfArrays.reduce((result, arr) => [...result, ...arr], []);
 }
