@@ -1,0 +1,7 @@
+{
+  "name": "@hello-org/core",
+  "version": "0.0.0",
+  "bin": {
+    "hello-org": "hello-org"
+  }
+}
