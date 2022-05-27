@@ -95,7 +95,7 @@ describe('link', () => {
       stat.rejects();
       const to = 'some/path';
       const from = path.resolve('package.json');
-      cmdShimIfExist.callsArg(2);
+      cmdShimIfExist.resolves();
       const expectedResult: link.LinkResult = { status: 'success' };
 
       // Act
@@ -113,7 +113,7 @@ describe('link', () => {
       const to = 'some/path';
       const from = path.resolve('package.json');
       const err = new Error('some error');
-      cmdShimIfExist.callsArgWith(2, err);
+      cmdShimIfExist.rejects(err);
 
       // Act
       const linkingPromise = link.link(from, to);

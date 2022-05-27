@@ -41,15 +41,8 @@ async function cmdShimIfExists(from: string, to: string): Promise<LinkResult> {
     return { status: 'alreadyExists' };
   } catch (_) {
     /* link doesn't exist */
-    return new Promise<LinkResult>((res, rej) => {
-      cmdShim.ifExists(from, to, (err: unknown) => {
-        if (err) {
-          rej(err);
-        } else {
-          res({ status: 'success' });
-        }
-      });
-    });
+    await cmdShim.ifExists(from, to);
+    return { status: 'success' };
   }
 }
 

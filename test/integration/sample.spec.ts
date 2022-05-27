@@ -1,10 +1,12 @@
 import { expect } from 'chai';
+import fs from 'fs';
 import execa = require('execa');
 import path from 'path';
 import rimraf from 'rimraf';
+import semver from 'semver';
 
 const rm = (location: string) =>
-  new Promise((res, rej) =>
+  new Promise<void>((res, rej) =>
     rimraf(location, (err) => {
       if (err) {
         rej(err);
@@ -95,7 +97,17 @@ describe('Sample project after installing and linking with `link-parent-bin`', f
   });
 
   it('should not link in ignored patterns', async () => {
-    await expect(execInSample('npm run hello-dependency', 'packages/ignored'))
-      .rejected;
+    const version = (await execa('npm', ['-v'])).stdout;
+    if (semver.gte(version, '8.0.0')) {
+      await execInSample('npm run hello-dependency', 'packages/ignored');
+      expect(
+        fs.existsSync(
+          resolve('packages/ignored/node_modules/.bin/helloDependency'),
+        ),
+      ).false;
+    } else {
+      await expect(execInSample('npm run hello-dependency', 'packages/ignored'))
+        .rejected;
+    }
   });
 });
