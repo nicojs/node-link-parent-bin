@@ -5,6 +5,8 @@
 
 Link the bins of parent (dev) dependencies to the child packages in a multi-package [lerna](https://lernajs.io/)-like project. Stuff just works as expected.
 
+**NOTE: This package is no longer needed and thus deprecated. Since recent NPM releases, any parent directory's "node_modules/.bin" is automatically added to the PATH when using `npm run`.**
+
 ## About
 
 Let's say your repo looks like this:
