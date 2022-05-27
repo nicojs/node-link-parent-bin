@@ -1,3 +1,19 @@
+# [3.0.0](https://github.com/nicojs/node-link-parent-bin/compare/v2.0.0...v3.0.0) (2022-05-27)
+
+
+### Features
+
+* **deprecate:** Add note about deprecation ([f3921c5](https://github.com/nicojs/node-link-parent-bin/commit/f3921c5e40d61bedac5f9cb3ae19cae8167d0646))
+* **node version:** Update min version to 14 ([6a52cd0](https://github.com/nicojs/node-link-parent-bin/commit/6a52cd099e137cc2d1b19e43830e6f79123e18ea))
+
+
+### BREAKING CHANGES
+
+* **deprecate:** This package is deprecated and should no longer be used. Recent NPM versions automatically add any parent's `node_modules/.bin` to the `PATH` when executing an `npm run` command, rendering this package no longer needed
+* **node version:** Node 10 or 12 are no longer supported officially.
+
+
+
 # [2.0.0](https://github.com/nicojs/node-link-parent-bin/compare/v1.0.2...v2.0.0) (2020-10-28)
 
 
